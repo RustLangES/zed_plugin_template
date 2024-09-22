@@ -1,0 +1,66 @@
+[template]
+cargo_generate_version = ">=0.9.0"
+exclude = [".github/workflows/ci.yml"]
+
+[placeholders.license]
+type = "string"
+prompt = "Choose the license for your project"
+default = "all"
+choices = ["all", "MIT", "Apache-2.0"]
+
+[placeholders.description]
+type = "string"
+prompt = "Provide a brief description of your Zed extension"
+
+[placeholders.plugin_name]
+type = "string"
+prompt = "Enter the name of your Zed extension"
+
+[placeholders.plugin_id]
+type = "string"
+prompt = "Enter a unique identifier for your plugin (e.g., 'my-awesome-plugin')"
+
+[placeholders.deploy_release]
+type = "bool"
+prompt = "Would you like to set up GitHub releases for this plugin?"
+default = true
+
+[placeholders.plugin_type]
+type = "string"
+prompt = "What type of Zed plugin are you creating?"
+choices = ["Language Server", "Theme", "Slash Command"]
+
+# Language Server Plugin
+[conditional.'plugin_type == "Language Server"'.placeholders]
+lsp_name = { type = "string", prompt = "Enter the name of the language server (e.g., 'rust-analyzer')" }
+language_name = { type = "string", prompt = "Enter the name of the language this server supports" }
+lsp_repo = { type = "string", prompt = "Enter the GitHub repository of the language server (format: author/repo_name)" }
+use_tree_sitter = { type = "bool", prompt = "Does this language have a Tree-sitter grammar?" }
+
+[conditional.'plugin_type == "Language Server" && use_tree_sitter'.placeholders]
+ts_repo = { type = "string", prompt = "Enter the GitHub repository of the Tree-sitter grammar" }
+ts_commit = { type = "string", prompt = "Enter the commit hash of the Tree-sitter grammar to use" }
+
+[conditional.'plugin_type != "Language Server"']
+ignore = ["src/{{lsp_name}}.rs"]
+
+# Theme Plugin
+[conditional.'plugin_type == "Theme"'.placeholders]
+theme_name = { type = "string", prompt = "Enter the name of your theme" }
+
+[conditional.'plugin_type != "Theme"']
+ignore = ["themes"]
+
+# Slash Command Plugin
+[conditional.'plugin_type == "Slash Command"'.placeholders]
+slash_command_name = { type = "string", prompt = "Enter the name of your slash command" }
+
+[conditional.'plugin_type != "Slash Command"']
+ignore = ["src/{{slash_command_name}}.rs"]
+
+# License files
+[conditional.'license != "MIT" && license != "all"']
+ignore = ["LICENSE-MIT"]
+
+[conditional.'license != "Apache-2.0" && license != "all"']
+ignore = ["LICENSE-APACHE"]
