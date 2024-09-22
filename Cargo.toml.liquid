@@ -1,0 +1,22 @@
+[package]
+name = "{{plugin_id}}"
+version = "0.0.1"
+authors = ["{{authors}}"]
+edition = "2021"
+publish = false
+{% if license == "MIT" -%}
+license = "MIT"
+{% elsif license == "Apache-2.0" -%}
+license = "Apache-2.0"
+{% else -%}
+license = "MIT OR Apache-2.0"
+{%- endif %}
+
+{% if plugin_type == "Language Server" -%}
+[lib]
+path = "src/{{lsp_name}}.rs"
+crate-type = ["cdylib"]
+{%- endif %}
+
+[dependencies]
+zed_extension_api = "0.1"

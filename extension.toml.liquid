@@ -1,0 +1,18 @@
+id = "{{plugin_id}}"
+name = "{{plugin_name}}"
+version = "0.0.1"
+authors = ["{{authors}}"]
+description = "{{description}}"
+repository = "https://github.com/{{username}}/{{plugin_id}}"
+
+{% if plugin_type == "Language Server" -%}
+[language_servers.{{lsp_name}}]
+name = "{{lsp_name}}"
+language = "{{language_name}}"
+
+{% if use_tree_sitter -%}
+[grammars.{{language_name}}]
+repository = "{{ts_repo}}"
+commit = "{{ts_commit}}"
+{%- endif -%}
+{%- endif %}
