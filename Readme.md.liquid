@@ -1,0 +1,69 @@
+# {{plugin_name}}
+
+{{description}}
+
+## Overview
+
+This is a {{plugin_type}} plugin for the Zed editor.
+
+{% if plugin_type == "Language Server" %}
+It provides language server functionality for {{language_name}}.
+
+### Features
+
+- Syntax highlighting
+- Code completion
+- Error diagnostics
+
+{% elsif plugin_type == "Theme" %}
+It provides a custom color theme for the Zed editor.
+
+### Features
+
+- Custom color scheme for syntax highlighting
+- Themed UI elements
+- [Add more theme-specific features]
+
+{% elsif plugin_type == "Slash Command" %}
+It adds the `/{{slash_command_name}}` command to Zed.
+
+### Features
+
+- [Describe what the slash command does]
+- [Add any additional functionalities]
+
+{% endif %}
+## Installation
+
+1. Open Zed
+2. Go to Settings > Extensions
+3. Click on "Install from URL"
+4. Enter the following URL: `https://github.com/{{username}}/{{plugin_id}}`
+5. Click "Install"
+
+## Usage
+
+{% if plugin_type == "Language Server" %}
+Once installed, this plugin will automatically activate when you open a {{language_name}} file in Zed.
+
+{% elsif plugin_type == "Theme" %}
+To use this theme:
+
+1. Go to Settings > Themes
+2. Select "{{theme_name}}" from the list of available themes
+
+{% elsif plugin_type == "Slash Command" %}
+To use the new slash command:
+
+1. In any Zed editor window, type `/{{slash_command_name}}`
+2. Press Enter or select the command from the dropdown
+3. [Add any additional usage instructions]
+
+{% endif %}
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the {{license}} License - see the [LICENSE](LICENSE) file for details.

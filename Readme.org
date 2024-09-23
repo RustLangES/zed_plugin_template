@@ -1,0 +1,75 @@
+# Zed Editor Plugin Template
+
+This is a template for creating plugins for the Zed editor using `cargo-generate`. It supports generating three types of plugins:
+
+1. Language Server plugins
+2. Theme plugins
+3. Slash Command plugins
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- [Rust](https://www.rust-lang.org/tools/install)
+- [cargo-generate](https://github.com/cargo-generate/cargo-generate)
+
+You can install `cargo-generate` with:
+
+```sh
+cargo install cargo-generate
+```
+
+## Usage
+
+To use this template and create a new Zed plugin project, run the following command:
+
+```sh
+cargo generate --git https://github.com/yourusername/zed-plugin-template.git
+```
+
+Follow the prompts to configure your plugin. The generator will ask you questions about:
+
+- Plugin name and description
+- Plugin type (Language Server, Theme, or Slash Command)
+- License
+- GitHub repository details
+
+Based on your answers, it will generate the appropriate files for your plugin type.
+
+## Template Structure
+
+The template includes the following key files:
+
+- `Cargo.toml.liquid`: The Rust project configuration file
+- `extension.toml.liquid`: The Zed extension configuration file
+- `README.md.liquid`: A template for the plugin's README
+- `src/{{lsp_name}}.rs.liquid`: Template for Language Server plugins
+- `themes/{{plugin_id}}.json.liquid`: Template for Theme plugins
+- `src/{{slash_command_name}}.rs.liquid`: Template for Slash Command plugins
+
+## Customization
+
+After generating your project, you can further customize it by:
+
+1. Editing the generated files to add your specific plugin logic
+2. Updating the README with more detailed information about your plugin
+3. Adding additional dependencies to `Cargo.toml` if needed
+
+## Contributing to the Template
+
+If you'd like to contribute to this template:
+
+1. Fork the repository
+2. Create a new branch for your feature
+3. Make your changes
+4. Submit a pull request with a clear description of your improvements
+
+## License
+
+This template is licensed under the MIT OR Apache-2.0 license. See the `LICENSE-MIT` and `LICENSE-APACHE` files for details.
+
+## Support
+
+If you encounter any issues or have questions about using this template, please open an issue in the GitHub repository.
+
+Happy plugin development!
