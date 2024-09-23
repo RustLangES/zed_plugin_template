@@ -57,7 +57,7 @@ ignore = ["themes"]
 slash_command_name = { type = "string", prompt = "Enter the name of your slash command" }
 
 [conditional.'plugin_type == "Theme"']
-ignore = ["src/{{slash_command_name}}.rs"]
+ignore = ["src/{{slash_command_name}}.rs", ".github/workflows/checks.yml"]
 
 # License files
 [conditional.'license != "MIT" && license != "all"']
