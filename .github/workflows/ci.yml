@@ -1,0 +1,169 @@
+name: Check Template
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ 'main' ]
+    paths-ignore:
+      - "**.md"
+
+env:
+  CARGO_GEN_VERSION: "0.22.0"
+
+jobs:
+  theme-plugin:
+    name: Test Theme Plugin
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_NAME: test-theme
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-generate@${{env.CARGO_GEN_VERSION}}
+      - name: Generate Test
+        run: |
+          cargo generate \
+            --verbose \
+            --path . \
+            --name "${{ env.PROJECT_NAME }}" \
+            -d license='all' \
+            -d description='Theme Test Description' \
+            -d plugin_name='Theme Test' \
+            -d plugin_id='test-theme' \
+            -d deploy_release=true \
+            -d plugin_type='Theme' \
+            -d theme_name='Theme Test'
+      - run: |
+          mv $PROJECT_NAME ${{ runner.temp }}/
+          cd ${{ runner.temp }}/$PROJECT_NAME
+          # Validaciones para el plugin de tema
+          if [ ! -f "themes/test-theme.json" ]; then
+            echo "Theme JSON file not generated"
+            exit 1
+          fi
+
+  slash-command-plugin:
+    name: Test Slash Command Plugin
+    if: false
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_NAME: test-slash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-generate@${{env.CARGO_GEN_VERSION}}
+      - name: Generate Test
+        run: |
+          cargo generate \
+            --verbose \
+            --path . \
+            --name "${{ env.PROJECT_NAME }}" \
+            -d license='all' \
+            -d description='Test Slash Command' \
+            -d plugin_name='Slash Command Test' \
+            -d plugin_id='test-slash-command' \
+            -d deploy_release=true \
+            -d plugin_type='Slash Command' \
+            -d slash_command_name='test-slash'
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+      - run: |
+          mv $PROJECT_NAME ${{ runner.temp }}/
+          cd ${{ runner.temp }}/$PROJECT_NAME
+          # Validaciones para el plugin de slash command
+          if [ ! -f "src/test-slash.rs" ]; then
+            echo "Slash command file not generated"
+            exit 1
+          fi
+          cargo check
+
+  language-plugin-no-ts:
+    name: Test Lang Plugin without TreeSitter
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_NAME: test-lang
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-generate@${{env.CARGO_GEN_VERSION}}
+      - name: Generate Test
+        run: |
+          cargo generate \
+            --verbose \
+            --path . \
+            --name "${{ env.PROJECT_NAME }}" \
+            -d license='all' \
+            -d description='Lang LSP Test' \
+            -d plugin_name='Language LSP Test Plugin' \
+            -d plugin_id='test-lang' \
+            -d deploy_release=true \
+            -d plugin_type='Language Server' \
+            -d lsp_name='test-lang-lsp' \
+            -d language_name='Lang' \
+            -d lsp_repo='RustLangES/test-lang-lsp-repo' \
+            -d use_tree_sitter=false
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+      - run: |
+          mv $PROJECT_NAME ${{ runner.temp }}/
+          cd ${{ runner.temp }}/$PROJECT_NAME
+          # Validaciones para el plugin de lenguaje sin TreeSitter
+          if [ ! -f "src/test-lang-lsp.rs" ]; then
+            echo "Language server file not generated"
+            exit 1
+          fi
+          cargo check
+
+  language-plugin-ts:
+    name: Test Lang Plugin with TreeSitter
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_NAME: test-lang-ts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-generate@${{env.CARGO_GEN_VERSION}}
+      - name: Generate Test
+        run: |
+          cargo generate \
+            --verbose \
+            --path . \
+            --name "${{ env.PROJECT_NAME }}" \
+            -d license='all' \
+            -d description='Lang LSP Test with TS' \
+            -d plugin_name='Language LSP Test Plugin with TS' \
+            -d plugin_id='test-lang-ts' \
+            -d deploy_release=true \
+            -d plugin_type='Language Server' \
+            -d lsp_name='test-lang-lsp-ts' \
+            -d language_name='LangTs' \
+            -d lsp_repo='RustLangES/test-lang-lsp-repo' \
+            -d use_tree_sitter=true \
+            -d ts_repo='RustLangES/test-lang-ts-repo' \
+            -d ts_commit='433af5e21f3d2a1639a875c1b2df898c596c774e'
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+      - run: |
+          mv $PROJECT_NAME ${{ runner.temp }}/
+          cd ${{ runner.temp }}/$PROJECT_NAME
+          # Validaciones para el plugin de lenguaje con TreeSitter
+          if [ ! -f "src/test-lang-lsp-ts.rs" ]; then
+            echo "Language server file not generated"
+            exit 1
+          fi
+          if ! grep -q "grammars.LangTs" extension.toml; then
+            echo "Unexpected TreeSitter configuration found"
+            exit 1
+          fi
+          if ! grep -q "433af5e21f3d2a1639a875c1b2df898c596c774e" extension.toml; then
+            echo "TreeSitter commit hash not found in configuration"
+            exit 1
+          fi
+          cargo check

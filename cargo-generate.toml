@@ -56,7 +56,7 @@ ignore = ["themes"]
 [conditional.'plugin_type == "Slash Command"'.placeholders]
 slash_command_name = { type = "string", prompt = "Enter the name of your slash command" }
 
-[conditional.'plugin_type != "Slash Command"']
+[conditional.'plugin_type == "Theme"']
 ignore = ["src/{{slash_command_name}}.rs"]
 
 # License files
