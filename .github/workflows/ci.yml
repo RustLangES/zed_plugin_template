@@ -5,7 +5,7 @@ on:
   push:
     branches: [ 'main' ]
     paths-ignore:
-      - "**.md"
+      - "Readme.org"
 
 env:
   CARGO_GEN_VERSION: "0.22.0"
