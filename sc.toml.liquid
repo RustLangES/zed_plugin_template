@@ -1,0 +1,42 @@
+# It can help you to commit correctly
+# https://github.com/romancitodev/simple-commits
+[git]
+skip_emojis = true
+
+{% if plugin_type == "Theme" -%}
+[[scopes]]
+name = "light"
+description = "Light mode related"
+
+[[scopes]]
+name = "dark"
+description = "Dark mode related"
+
+[[scopes]]
+name = "ui"
+description = "UI aspect details related"
+
+[[scopes]]
+name = "color"
+description = "Change color scheme"
+{%- endif %}
+
+{% if plugin_type == "Language Server" -%}
+[[scopes]]
+name = "lang"
+description = "Language support"
+
+[[scopes]]
+name = "lsp"
+description = "lsp related"
+
+{% if use_tree_sitter -%}
+[[scopes]]
+name = "grammar"
+description = "Grammar scheme related"
+
+[[scopes]]
+name = "tree-sitter"
+description = "TreeSitter related"
+{%- endif -%}
+{%- endif %}
