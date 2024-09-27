@@ -12,31 +12,14 @@ prompt = "Choose the license for your project"
 default = "all"
 choices = ["all", "MIT", "Apache-2.0"]
 
-[placeholders.description]
-type = "string"
-prompt = "Provide a brief description of your Zed extension"
-
-[placeholders.plugin_name]
-type = "string"
-prompt = "Enter the name of your Zed extension"
-
-[placeholders.plugin_id]
-type = "string"
-prompt = "Enter a unique identifier for your plugin (e.g., 'my-awesome-plugin')"
-
-[placeholders.plugin_type]
-type = "string"
-prompt = "What type of Zed plugin are you creating?"
-choices = ["Language Server", "Theme", "Slash Command"]
-
-[placeholders.gh_username]
-type = "string"
-prompt = "What is the github user where everything will be published?"
-
-[placeholders.deploy_release]
-type = "bool"
-prompt = "Would you like to set up GitHub releases for this plugin?"
-default = true
+# General Placeholders
+[placeholders]
+description = { type = "string", prompt = "Provide a brief description of your Zed extension" }
+plugin_name = { type = "string", prompt = "Enter the name of your Zed extension" }
+plugin_id = { type = "string", prompt = "Enter a unique identifier for your plugin (e.g., 'my-awesome-plugin')" }
+gh_username = { type = "string", prompt = "What is the github user where everything will be published?" }
+deploy_release = { type = "bool", prompt = "Would you like to set up GitHub releases for this plugin?", default = true }
+plugin_type = { type = "string", prompt = "What type of Zed plugin are you creating?", choices = ["Language Server", "Theme", "Slash Command"] }
 
 [conditional.'!deploy_release']
 ignore = [".github/workflows/cliff.yml", ".github/workflows/publish-extension.yml", "cliff.toml", "release.toml"]
