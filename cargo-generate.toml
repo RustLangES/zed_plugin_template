@@ -1,6 +1,7 @@
 [template]
 cargo_generate_version = ">=0.9.0"
 ignore = [".github/workflows/ci.yml", "Readme.org"]
+exclude = ["cliff.toml", "release.toml"]
 
 [hooks]
 post = ["post-script.rhai"]
@@ -34,7 +35,7 @@ prompt = "Would you like to set up GitHub releases for this plugin?"
 default = true
 
 [conditional.'!deploy_release']
-ignore = [".github/workflows/release.yml", "cliff.toml", "release.toml"]
+ignore = [".github/workflows/cliff.yml", ".github/workflows/publish-extension.yml", "cliff.toml", "release.toml"]
 
 # Language Server Plugin
 [conditional.'plugin_type == "Language Server"'.placeholders]

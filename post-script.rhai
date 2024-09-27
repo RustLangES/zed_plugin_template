@@ -1,6 +1,9 @@
 let release = variable::get("deploy_release");
+let plugin_id = variable::get("plugin_id");
 
 if release {
+    system::command("cargo", ["dist", "init", "-y", "--tag", `${plugin_id}-v0.0.1`]);
+
     print(`
     Post-Installation Instructions:
 
@@ -15,5 +18,7 @@ if release {
        - This will handle version bumping, git tagging, and pushing new tags to the repository.
 
     3. The release action in the workflow will automatically create a changelog and publish the release based on the tags pushed.
+
+    4. Check the .github folder to replace some variables
     `);
 }
