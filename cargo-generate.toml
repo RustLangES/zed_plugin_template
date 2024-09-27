@@ -29,6 +29,10 @@ type = "string"
 prompt = "What type of Zed plugin are you creating?"
 choices = ["Language Server", "Theme", "Slash Command"]
 
+[placeholders.gh_username]
+type = "string"
+prompt = "What is the github user where everything will be published?"
+
 [placeholders.deploy_release]
 type = "bool"
 prompt = "Would you like to set up GitHub releases for this plugin?"

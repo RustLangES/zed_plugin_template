@@ -22,7 +22,7 @@ jobs:
       - uses: huacnlee/zed-extension-action@v1
         with:
           extension-name: {{plugin_id}}
-          push-to: {{username}}/extensions
+          push-to: {{gh_username}}/extensions
 {% raw -%}
         env:
           # the personal access token should have "repo" & "workflow" scopes
